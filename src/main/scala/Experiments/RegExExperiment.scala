@@ -1,6 +1,9 @@
-package com.laxmena
+package Experiments
 
 import scala.util.matching.Regex
+import HelperUtils.RegExUtil.{getHourWindow, getLogLevelFromText, getTimeStampFromLogString, getTimeStampFromText}
+
+import org.apache.hadoop.io.{IntWritable, Text}
 
 class RegExExperiment
 object RegExExperiment {
@@ -23,10 +26,7 @@ object RegExExperiment {
   @main def runRegEx =
     val logPattern: Regex = "(?m)(^\\d{2}:\\d{2}:\\d{2}\\.\\d{3})\\s\\[([^\\]]*)\\]\\s(WARN|INFO|DEBUG|ERROR)\\s+([A-Z][A-Za-z\\.]+)\\$\\s-\\s(.*)".r
     val value =
-      """17:59:51.582 [main] INFO  GenerateLogData$ - Log data generator started...
-        |17:59:52.107 [main] WARN  HelperUtils.Parameters$ - Max count 100 is used to create records instead of timeouts
-        |17:59:52.334 [scala-execution-context-global-15] WARN  HelperUtils.Parameters$ - s%]s,+2k|D}K7b/XCwG&@7HDPR8z
-        |17:59:52.384 [scala-execution-context-global-15] INFO  HelperUtils.Parameters$ - ;kNI&V%v<c#eSDK@lPY(""".stripMargin
+      "17:59:51.582 [main] INFO  GenerateLogData$ - Log data generator started..."
 
     val patternMatch = logPattern.findFirstMatchIn(value.toString)
     patternMatch match {
@@ -34,5 +34,12 @@ object RegExExperiment {
       case None => println("No match found")
     }
 
+    val patternMatch1 = logPattern.findFirstMatchIn(value.toString)
+
+    val timeStamp = getTimeStampFromText(Text(value))
+    println("timeStamp: " + timeStamp)
+
+    val hourWindow = getHourWindow(timeStamp)
+    println("Hourwindo: " + hourWindow)
 
 }

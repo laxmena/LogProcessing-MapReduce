@@ -1,41 +1,49 @@
 package com.laxmena
 
-import HelperUtils.RegExUtil.{getLogLevelFromLogString, getLogLevelFromText}
-import HelperUtils.{CreateLogger, ObtainConfigReference}
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.Path
-import org.apache.hadoop.io.{IntWritable, Text, WritableComparator}
+import org.apache.hadoop.io.{IntWritable, Text}
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat
 import org.apache.hadoop.mapreduce.{Job, Mapper, Reducer}
+import HelperUtils.RegExUtil.{getHourWindow, getLogLevelFromText, getTimeStampFromText}
+import HelperUtils.{CreateLogger, ObtainConfigReference}
+import org.apache.hadoop.mapreduce.lib.input.FileSplit
 
 import java.lang.Iterable
-import java.util.StringTokenizer
 import scala.collection.JavaConverters.*
-import scala.util.matching.Regex
 
-class LogLevelFrequency
-object LogLevelFrequency {
-  val logger = CreateLogger(classOf[LogLevelFrequency])
+class MostErrorTimeInterval
+
+object MostErrorTimeInterval {
+  val logger = CreateLogger(classOf[MostErrorTimeInterval])
   val config = ObtainConfigReference("LogProcessing") match {
     case Some(value) => value.getConfig("LogProcessing")
     case None => throw new RuntimeException("Cannot obtain a reference to the LogProcessing config data.")
   }
 
-  class LogFrequencyMapper extends Mapper[Object, Text, Text, IntWritable] {
-      override def map(key: Object, value: Text,
-                       context: Mapper[Object, Text, Text, IntWritable]#Context): Unit = {
-        logger.info("Executing map method")
-        val word = Text()
-        val one = new IntWritable(1)
+  class MostErrorTimeIntervalMapper extends Mapper[Object, Text, Text, IntWritable] {
+    override def map(key: Object, value: Text,
+                     context: Mapper[Object, Text, Text, IntWritable]#Context): Unit = {
+      logger.info("Executing MostErrorTimeIntervalMapper method")
+      val fileSplit: FileSplit = context.getInputSplit().asInstanceOf[FileSplit]
+      val fileName = Text(fileSplit.getPath().getName());
 
-        val level = getLogLevelFromText(value)
-        word.set(level)
+      val word = Text()
+      val one = new IntWritable(1)
+
+      val timeStamp = getTimeStampFromText(value)
+      val hourWindow = getHourWindow(timeStamp)
+      val level = getLogLevelFromText(value)
+
+      if(level == "ERROR") {
+        word.set(s"$fileName $hourWindow")
         context.write(word, one)
       }
+    }
   }
 
-  class LogFrequencyReducer extends Reducer[Text, IntWritable, Text, IntWritable] {
+  class MostErrorTimeIntervalReducer extends Reducer[Text, IntWritable, Text, IntWritable] {
     override def reduce(key: Text, values: Iterable[IntWritable],
                         context: Reducer[Text, IntWritable, Text, IntWritable]#Context): Unit = {
       logger.info("Executing reduce method")
@@ -44,15 +52,16 @@ object LogLevelFrequency {
     }
   }
 
+
   def main(args: Array[String]): Unit = {
     logger.info("Starting LogLevelFrequency Execution...")
     val configuration = new Configuration()
     val job = Job.getInstance(configuration, "Log Level Frequency")
 
     job.setJarByClass(this.getClass)
-    job.setMapperClass(classOf[LogFrequencyMapper])
-    job.setCombinerClass(classOf[LogFrequencyReducer])
-    job.setReducerClass(classOf[LogFrequencyReducer])
+    job.setMapperClass(classOf[MostErrorTimeIntervalMapper])
+    job.setCombinerClass(classOf[MostErrorTimeIntervalReducer])
+    job.setReducerClass(classOf[MostErrorTimeIntervalReducer])
 
     job.setOutputKeyClass(classOf[Text])
     job.setOutputValueClass(classOf[IntWritable])
