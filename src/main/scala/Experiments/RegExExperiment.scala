@@ -23,7 +23,7 @@ object RegExExperiment {
     }
   }
 
-  @main def runRegEx =
+  def runRegEx =
     val logPattern: Regex = "(?m)(^\\d{2}:\\d{2}:\\d{2}\\.\\d{3})\\s\\[([^\\]]*)\\]\\s(WARN|INFO|DEBUG|ERROR)\\s+([A-Z][A-Za-z\\.]+)\\$\\s-\\s(.*)".r
     val value =
       "17:59:51.582 [main] INFO  GenerateLogData$ - Log data generator started..."
