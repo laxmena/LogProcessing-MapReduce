@@ -52,6 +52,9 @@ object CommonUtils {
           conf.set(Constants.PATTERN, Constants.DEFAULT_PATTERN)
         }
     }
+    if(args(2) != Constants.MOST_ERROR_MR) {
+      conf.set("mapred.textoutputformat.separator", ",")
+    }
     conf
   }
 

@@ -39,8 +39,8 @@ import scala.util.matching.Regex
  *      <ul>
  *        <li>log-frequency</li>
  *        <li>most-error</li>
- *        <li>longest-regex</li>
- *        <li>log-freq-dist</li>
+ *        <li>longest-regex (Takes Pattern as args(3))</li>
+ *        <li>log-freq-dist (Takes Pattern as args(3))</li>
  *      </ul>
  *   </li>
  *  <li><b>args(3)[Optional]</b>: Regular Expression Pattern key. Must be one of the following text in the bold face:
@@ -66,6 +66,7 @@ object LogProcessor {
     // Get Configurations based on Arguments
     val configuration: Configuration = CommonUtils.getConfiguration(args)
     val conf2 = CommonUtils.getConfiguration(args)
+    conf2.set("mapred.textoutputformat.separator", ",")
 
     // Create Map-Reduce Jobs
     val job  = Job.getInstance(configuration, "LogProcessor")
@@ -137,17 +138,17 @@ object LogProcessor {
         FileInputFormat.addInputPath(job, new Path(args(0)))
         FileOutputFormat.setOutputPath(job, new Path(args(1)+"_interm"))
         job.waitForCompletion(true)
+        conf2.set("mapred.textoutputformat.separator", ",")
         FileInputFormat.addInputPath(job2, new Path(args(1)+"_interm"))
         FileOutputFormat.setOutputPath(job2, new Path(args(1)))
-        conf2.set("mapred.textoutputformat.separator", ",")
         System.exit(if(job2.waitForCompletion(true)) 0 else 1)
       }
       case _ => {
+
         logger.debug(s"HDFS Input Path: ${args(0)}")
         FileInputFormat.addInputPath(job, new Path(args(0)))
         logger.debug(s"HDFS Output Path: ${args(1)}")
         FileOutputFormat.setOutputPath(job, new Path(args(1)))
-        configuration.set("mapred.textoutputformat.separator", ",")
         System.exit(if(job.waitForCompletion(true)) 0 else 1)
       }
     }
