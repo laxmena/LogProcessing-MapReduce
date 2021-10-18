@@ -13,13 +13,13 @@ object CommonUtils {
   val logger = CreateLogger(classOf[CommonUtils])
 
   // Get Default Configurations necessary for Program execution
-  val config = ObtainConfigReference("LogProcessing") match {
-    case Some(value) => value.getConfig("LogProcessing")
+  val config = ObtainConfigReference(Constants.LOG_PROCESSING) match {
+    case Some(value) => value.getConfig(Constants.LOG_PROCESSING)
     case None => throw new RuntimeException("Cannot obtain a reference to the LogProcessing config data.")
   }
   // Get customizable configurations
-  val userConfig = ObtainConfigReference("userInput") match {
-    case Some(value) => value.getConfig("userInput")
+  val userConfig = ObtainConfigReference(Constants.USER_INPUT) match {
+    case Some(value) => value.getConfig(Constants.USER_INPUT)
     case None => throw new RuntimeException("Cannot obtain a reference to the userInput config data.")
   }
 
@@ -41,15 +41,15 @@ object CommonUtils {
     // to select the regex pattern.
     if(args(2) == Constants.LONGEST_PATTERN_REGEX_MR
       || args(2) == Constants.LOG_FREQUENCY_DIST_MR) {
-      val logSearchConfig = userConfig.getConfig("logSearch")
+      val logSearchConfig = userConfig.getConfig(Constants.LOGSEARCH)
       // If input validation fails, set default search regex pattern.
       val patternOption =
         if(args.length > 3 && logSearchConfig.hasPath(args(3))) {
           logger.info(s"Search Pattern: --> ${logSearchConfig.getString(args(3))}")
-          conf.set("pattern", logSearchConfig.getString(args(3)))
+          conf.set(Constants.PATTERN, logSearchConfig.getString(args(3)))
         } else {
-          logger.info("Setting default Pattern: --> .*")
-          conf.set("pattern", ".*")
+          logger.info("Setting default Pattern: --> " + Constants.DEFAULT_PATTERN)
+          conf.set(Constants.PATTERN, Constants.DEFAULT_PATTERN)
         }
     }
     conf

@@ -35,16 +35,23 @@ object Constants {
   val DEFAULT = "default_group"
   val DATE_GROUP = "date_group"
   val FILE_NAME_PATTERN = "file_name_pattern"
-
-  val logPattern: Regex = config.getString("logRegexPattern").r
-  val hourWindowPattern: Regex = config.getString("hourWindowPattern").r
-  val timeStampPattern: Regex = config.getString("timeStampPattern").r
+  
+  val LOG_REGEX_PATTERN = "logRegexPattern"
+  val HOUR_WINDOW_PATTRN = "hourWindowPattern"
+  val TIMESTAMP_PATTERN = "timeStampPattern"
+  val logPattern: Regex = config.getString(LOG_REGEX_PATTERN).r
+  val hourWindowPattern: Regex = config.getString(HOUR_WINDOW_PATTRN).r
+  val timeStampPattern: Regex = config.getString(TIMESTAMP_PATTERN).r
 
   val PATTERN_CONF_PREFIX = "pattern"
   val TIMEINTERVAL = "timeInterval"
   val LOGSEARCH = "logSearch"
   val USER_INPUT = "userInput"
   val PATTERN = "pattern"
-
+  val LOG_PROCESSING = "LogProcessing"
   val ERROR = "ERROR"
+  val WARN = "WARN"
+  val INFO = "INFO"
+  val DEBUG = "DEBUG"
+  val DEFAULT_PATTERN = ".*"
 }
