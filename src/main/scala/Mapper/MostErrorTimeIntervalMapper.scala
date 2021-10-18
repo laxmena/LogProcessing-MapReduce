@@ -4,32 +4,48 @@ import HelperUtils.RegExUtil.{getHourWindow, getLogLevelFromText, getTimeStampFr
 import org.apache.hadoop.io.{IntWritable, Text}
 import org.apache.hadoop.mapreduce.Mapper
 import org.apache.hadoop.mapreduce.lib.input.FileSplit
-import HelperUtils.{CreateLogger, ObtainConfigReference}
+import HelperUtils.{CommonUtils, CreateLogger, ObtainConfigReference, Constants}
 
+/**
+ * <b>MostErrorTimeIntervalMapper:</b> Breaks the input files into timebuckets, and counts the number of error messages
+ * in each bucket. Length of the TimeBucket is configured in the Configuration file.
+ * <ul>
+ *   <li></li>
+ * </ul>
+ */
 class MostErrorTimeIntervalMapper extends Mapper[Object, Text, Text, IntWritable] {
   val logger = CreateLogger(classOf[MostErrorTimeIntervalMapper])
 
-  val userConfig = ObtainConfigReference("userInput") match {
-    case Some(value) => value.getConfig("userInput")
+  val userConfig = ObtainConfigReference(Constants.USER_INPUT) match {
+    case Some(value) => value.getConfig(Constants.USER_INPUT)
     case None => throw new RuntimeException("Cannot obtain a reference to the userInput config data.")
   }
 
+  /**
+   * Checks if the LogLevel is ERROR, and writes TimeBucket and value 1 to the mapper output.
+   * 
+   * @param key
+   * @param value
+   * @param context
+   */
   override def map(key: Object, value: Text,
                    context: Mapper[Object, Text, Text, IntWritable]#Context): Unit = {
-    val fileSplit: FileSplit = context.getInputSplit().asInstanceOf[FileSplit]
-    val fileName = Text(fileSplit.getPath().getName());
-
+    val date = CommonUtils.getDateFromFileName(context)
+    
+    // Initialize the output writables
     val word = Text()
     val one = new IntWritable(1)
-
-    val windowSize  = userConfig.getInt("timeInterval")
+    
+    // Get TimeBucket that the current LogString belongs to
+    val windowSize  = userConfig.getInt(Constants.TIMEINTERVAL)
     val timeStamp = getTimeStampFromText(value)
     val timeBucket = getTimeWindow(timeStamp, windowSize)
+
+    // Extract LogLevel
     val level = getLogLevelFromText(value)
-
-
-    if(level == "ERROR") {
-      word.set(s"$fileName $timeBucket")
+    // Check if the LogLevel is ERROR
+    if(level == Constants.ERROR) {
+      word.set(s"$date $timeBucket")
       context.write(word, one)
     }
   }

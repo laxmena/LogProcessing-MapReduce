@@ -8,15 +8,53 @@ import org.apache.hadoop.io.{IntWritable, Text, WritableComparator}
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat
 import org.apache.hadoop.mapreduce.{Job, Mapper, Reducer}
-import com.laxmena.Mapper.{LogFrequencyDistributionMapper, LogFrequencyMapper, LongestLogStringMapper, MostErrorTimeIntervalMapper, SortByValueMapper}
-import com.laxmena.Reducer.{LogFrequencyDistributionReducer, LogFrequencyReducer, LongestLogStringReducer, MostErrorTimeIntervalReducer, SortByValueReducer}
+import com.laxmena.Mapper.{LogFrequencyDistributionMapper, LogFrequencyMapper, LongestLogStringMapper}
+import com.laxmena.Mapper.{MostErrorTimeIntervalMapper, SortByValueMapper}
+import com.laxmena.Reducer.{LogFrequencyDistributionReducer, LogFrequencyReducer, LongestLogStringReducer}
+import com.laxmena.Reducer.{MostErrorTimeIntervalReducer, SortByValueReducer}
 
 import java.lang.Iterable
 import scala.collection.JavaConverters.*
 import scala.util.matching.Regex
 
 /**
- * LogProcessor contains Main Class. This invokes
+ * <h1>LogProcessor</h1>
+ * <p>
+ *   LogProcessor is the Primary class for Map-Reduce programs. LogProcessor contains 4 different Map-Reduce programs
+ *   which can be invoked by passing different arguments.
+ * </p>
+ * <h3>List of Map-Reduce Programs implemented:</h3>
+ * <ol>
+ *   <li><b>LogLevel Frequency<b>: Compute LogLevels Distribution in the input log files</li>
+ *   <li><b>Most Error in TimeInterval</b>: Find Time Intervals with most errors, sorted descending order</li>
+ *   <li><b>Longest Substring matching Regex</b>: Find the Longest Substring that matches a Regular Expression</li>
+ *   <li><b>LogLevel Frequency Distribution in TimeIntervals</b>: LogLevel distributions in specified TimeIntervals</li>
+ * </ol>
+ * <br/>
+ * <code>hadoop jar LogProcessing-MapReduce-assembly-0.1.jar [args(0)] [args(1)] [args(2)] [args(3)] </code>
+ * <ol>
+ *   <li><b>args(0)</b>: Input Path. (Example: logprocess/input) </li>
+ *   <li><b>args(1)</b>: Output Path. (Example: logprocess/output) </li>
+ *   <li><b>args(2)</b>: Map-Reduce Key. Must be one of the following:
+ *      <ul>
+ *        <li>log-frequency</li>
+ *        <li>most-error</li>
+ *        <li>longest-regex</li>
+ *        <li>log-freq-dist</li>
+ *      </ul>
+ *   </li>
+ *  <li><b>args(3)[Optional]</b>: Regular Expression Pattern key. Must be one of the following text in the bold face:
+ *    <ul>
+ *      <li><b>pattern1</b>: Any. Matches Complete String.</li>
+ *      <li><b>pattern2</b>: Substring enclosed within Parantheses().</li>
+ *      <li><b>pattern3</b>: Substring with any alphabets, numbers and special characters</li>
+ *      <li><b>pattern4</b>: Substring with consecutive Numbers</li>
+ *    </ul>
+ *  </li>
+ * </ol>
+ * <br/>
+ * <p><b>Example command to run LogProcessor in Hadoop:</b> <br/>
+ * <code>hadoop jar LogProcessing-MapReduce-assembly-0.1.jar logprocess/input logprocess/output longest-regex pattern2</code></p>
  */
 class LogProcessor
 object LogProcessor {
@@ -25,16 +63,19 @@ object LogProcessor {
   def main(args: Array[String]): Unit = {
     logger.info("Starting LogProcessor Execution...")
 
+    // Get Configurations based on Arguments
     val configuration: Configuration = CommonUtils.getConfiguration(args)
     val conf2 = CommonUtils.getConfiguration(args)
 
-
+    // Create Map-Reduce Jobs
     val job  = Job.getInstance(configuration, "LogProcessor")
     val job2 = Job.getInstance(conf2, "Sorting")
 
+    // Set Jars for the Jobs
     job.setJarByClass(this.getClass)
     job2.setJarByClass(this.getClass)
 
+    // Invoke Map-Reduce jobs based on user inputs in command line
     args(2) match {
       case Constants.LOG_FREQUENCY_MR => {
         logger.info("Selected Map-Reduce Program: Log Frequency Calculator")
@@ -62,7 +103,7 @@ object LogProcessor {
         job2.setOutputValueClass(classOf[IntWritable])
       }
       case Constants.LONGEST_PATTERN_REGEX_MR => {
-        logger.info("Selected Map-Reduce Program: Longest Log String in each Logging Level")
+        logger.info("Selected Map-Reduce Program: Longest Log String that matches a Substring in each Logging Level")
         job.setMapperClass(classOf[LongestLogStringMapper])
         job.setCombinerClass(classOf[LongestLogStringReducer])
         job.setReducerClass(classOf[LongestLogStringReducer])
@@ -89,9 +130,6 @@ object LogProcessor {
         job.setOutputValueClass(classOf[IntWritable])
       }
     }
-
-
-
 
     logger.info("Submitting Job for Execution")
     args(2) match {

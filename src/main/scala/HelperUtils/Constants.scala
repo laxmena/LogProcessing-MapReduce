@@ -41,5 +41,10 @@ object Constants {
   val timeStampPattern: Regex = config.getString("timeStampPattern").r
 
   val PATTERN_CONF_PREFIX = "pattern"
+  val TIMEINTERVAL = "timeInterval"
+  val LOGSEARCH = "logSearch"
+  val USER_INPUT = "userInput"
+  val PATTERN = "pattern"
 
+  val ERROR = "ERROR"
 }
