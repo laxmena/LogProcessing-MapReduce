@@ -11,7 +11,7 @@ class LongestLogStringReducer extends Reducer[Text, IntWritable, Text, IntWritab
 
     val initial = 0
 
-    var max = values.asScala.foldLeft(initial){(max, x) => {
+    val max = values.asScala.foldLeft(initial){(max, x) => {
       if (x.get > max) x.get else max
     }}
 

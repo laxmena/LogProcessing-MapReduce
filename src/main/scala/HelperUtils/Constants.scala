@@ -4,6 +4,9 @@ import HelperUtils.RegExUtil.config
 
 import scala.util.matching.Regex
 
+/**
+ * Encompasses all the constant values used across the project.
+ */
 class Constants
 object Constants {
   val config = ObtainConfigReference("LogProcessing") match {
