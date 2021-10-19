@@ -40,7 +40,8 @@ object CommonUtils {
     // 'frequency distribution' over a time interval, user has the ability
     // to select the regex pattern.
     if(args(2) == Constants.LONGEST_PATTERN_REGEX_MR
-      || args(2) == Constants.LOG_FREQUENCY_DIST_MR) {
+      || args(2) == Constants.LOG_FREQUENCY_DIST_MR
+      || args(2) == Constants.MOST_ERROR_MR) {
       val logSearchConfig = userConfig.getConfig(Constants.LOGSEARCH)
       // If input validation fails, set default search regex pattern.
       val patternOption =

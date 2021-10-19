@@ -4,7 +4,9 @@ import HelperUtils.RegExUtil.{getHourWindow, getLogLevelFromText, getTimeStampFr
 import org.apache.hadoop.io.{IntWritable, Text}
 import org.apache.hadoop.mapreduce.Mapper
 import org.apache.hadoop.mapreduce.lib.input.FileSplit
-import HelperUtils.{CommonUtils, CreateLogger, ObtainConfigReference, Constants}
+import HelperUtils.{CommonUtils, CreateLogger, ObtainConfigReference, Constants, RegExUtil}
+import scala.collection.JavaConverters.*
+import scala.util.matching.Regex
 
 /**
  * <b>MostErrorTimeIntervalMapper:</b> Breaks the input files into timebuckets, and counts the number of error messages
@@ -31,7 +33,9 @@ class MostErrorTimeIntervalMapper extends Mapper[Object, Text, Text, IntWritable
   override def map(key: Object, value: Text,
                    context: Mapper[Object, Text, Text, IntWritable]#Context): Unit = {
     val date = CommonUtils.getDateFromFileName(context)
-    
+    val conf = context.getConfiguration()
+    val userPattern: Regex = conf.get(Constants.PATTERN).r
+
     // Initialize the output writables
     val word = Text()
     val one = new IntWritable(1)
@@ -43,8 +47,11 @@ class MostErrorTimeIntervalMapper extends Mapper[Object, Text, Text, IntWritable
 
     // Extract LogLevel
     val level = getLogLevelFromText(value)
+    val logStr = RegExUtil.getLogMessageFromText(value)
+    val matchedString = RegExUtil.getMatchedStringWithPattern(logStr, userPattern)
+
     // Check if the LogLevel is ERROR
-    if(level == Constants.ERROR) {
+    if(level == Constants.ERROR && matchedString != Constants.UNKNOWN) {
       word.set(s"$date $timeBucket")
       context.write(word, one)
     }
