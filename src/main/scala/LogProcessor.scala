@@ -139,6 +139,7 @@ object LogProcessor {
         FileOutputFormat.setOutputPath(job, new Path(args(1)+"_interm"))
         job.waitForCompletion(true)
         conf2.set("mapred.textoutputformat.separator", ",")
+        job2.setNumReduceTasks(1)
         FileInputFormat.addInputPath(job2, new Path(args(1)+"_interm"))
         FileOutputFormat.setOutputPath(job2, new Path(args(1)))
         System.exit(if(job2.waitForCompletion(true)) 0 else 1)
