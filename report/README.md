@@ -17,5 +17,8 @@ This project was done as part of __CS441 Engineering Distributed Objects for Clo
 7. [Limitations and Future Improvements](./Improvements.md)
 8. [Resources and References](./Resources.md)
 
-### Demo:
-<iframe width="560" height="315" src="https://www.youtube.com/embed/_YpnZizzuwM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+### Video Demo:
+
+Note: Click on the image to navigate to the Video Demo:
+
+[![LogProcessing AWS Video Demo](https://img.youtube.com/vi/et5_2hc6MWo/0.jpg)](https://youtu.be/et5_2hc6MWo)
