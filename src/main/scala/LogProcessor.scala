@@ -96,6 +96,7 @@ object LogProcessor {
         job.setOutputValueClass(classOf[IntWritable])
 
         // Sorting
+        logger.info("Second Map-Reduce Program: Sorting in Descending order")
         job2.setMapperClass(classOf[SortByValueMapper])
         job2.setReducerClass(classOf[SortByValueReducer])
         job2.setMapOutputKeyClass(classOf[IntWritable])
@@ -142,6 +143,7 @@ object LogProcessor {
         job2.setNumReduceTasks(1)
         FileInputFormat.addInputPath(job2, new Path(args(1)+"_interm"))
         FileOutputFormat.setOutputPath(job2, new Path(args(1)))
+        logger.info("Execution complted")
         System.exit(if(job2.waitForCompletion(true)) 0 else 1)
       }
       case _ => {
@@ -150,6 +152,7 @@ object LogProcessor {
         FileInputFormat.addInputPath(job, new Path(args(0)))
         logger.debug(s"HDFS Output Path: ${args(1)}")
         FileOutputFormat.setOutputPath(job, new Path(args(1)))
+        logger.info("Execution complted")
         System.exit(if(job.waitForCompletion(true)) 0 else 1)
       }
     }
