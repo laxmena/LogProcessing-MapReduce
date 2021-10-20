@@ -56,3 +56,6 @@ classes/
 
 # CMake
 cmake-build-*/
+
+*.ppk
+*.ppm
