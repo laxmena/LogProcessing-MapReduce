@@ -1,7 +1,7 @@
 # Report: LogProcessing-MapReduce
 
-Author: [Lakshmanan Meiyappan](https://laxmena.com)
-NetID: [lmeiya2](mailto:lmeiya2@uic.edu)
+- Author: [Lakshmanan Meiyappan](https://laxmena.com)
+- NetID: [lmeiya2](mailto:lmeiya2@uic.edu)
 
 LogProcessing Map-Reduce is a Collection of Map Reduce program to process Log Files and extract information. This project can be configured to work with Log Files of multiple types without any changes to the Code base, and just by modifying the applications.config file.
 

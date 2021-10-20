@@ -30,13 +30,15 @@ and produce results for the requested pattern.
 
 See How to __Run LogProcessing MapReduce__ section for more instructions on how to execute this program.
 
-## Documentation
+## Documentation and Demo Video
 
 Please find the Documentation of the Classes and Methods here: [LogProcessing Documentation](https://laxmena.github.io/LogProcessing-MapReduce/)
 
+Demo and Walkthrough Video : [Running LogProcessing Map-Reduce on AWS EMR](https://youtu.be/et5_2hc6MWo)
+
 ## Report and Results
 
-Detailed Report and results after executing the Map Reduce task can be found here __[LogProcessing MapReduce Report](#)__.
+Detailed Report and results after executing the Map Reduce task can be found here __[LogProcessing MapReduce Report](./report/README.md)__.
 
 ## How to Run LogProcessing Map-Reduce?
 
