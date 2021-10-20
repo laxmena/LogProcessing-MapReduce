@@ -32,9 +32,14 @@ See How to __Run LogProcessing MapReduce__ section for more instructions on how 
 
 ## Documentation and Demo Video
 
-Please find the Documentation of the Classes and Methods here: [LogProcessing Documentation](https://laxmena.github.io/LogProcessing-MapReduce/)
+Please find the __Documentation__ of this Project hosted in Github pages here: [LogProcessing Documentation](https://laxmena.github.io/LogProcessing-MapReduce/)
 
-Demo and Walk-through Video : [Running LogProcessing Map-Reduce on AWS EMR](https://youtu.be/et5_2hc6MWo)
+__Demo and Walk-through Video:__
+
+[Running LogProcessing Map-Reduce on AWS EMR](https://youtu.be/et5_2hc6MWo)
+
+[![LogProcessing AWS Video Demo](https://img.youtube.com/vi/et5_2hc6MWo/0.jpg)](https://youtu.be/et5_2hc6MWo)
+
 
 ## Report and Results
 
