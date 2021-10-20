@@ -6,3 +6,7 @@ These are scopes where this project can be expanded further.
 - Extend the project, to be able to search for log messages within a given Start time and End time. 
 - Replace two step Map-Reduce job for Most-Error computation, by implementing Secondary sort, or building custom comparator.
 - Improve TimeInterval bucket slotting, by providing support for seconds based time intervals also.
+
+<hr/>
+
+[<< Back to Index](README.md)

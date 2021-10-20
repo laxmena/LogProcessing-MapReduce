@@ -47,14 +47,14 @@ Following terminologies is used in the documentation of this projects:
 5. ClassName - `HelperUtils.Parameters$`, this in general is referred to as ClassName.
 6. LogMessage - `s%]s,+2k|D}K7b/XCwG&@7HDPR8z`, this is the actual Log Message. Note that LogString and LogMessage are different.
 
-**More Information:**
+**More Information on LogFiles Shards:**
 
 Of the four Log files in the input directory, log files on `2021-10-04`, `2021-10-07` and `2021-10-10` have 103 LogStrings each, and the distribution of LogLevels in these files are same.
 
 Fourth Log input file, dated `2021-10-17` have 15000+3 LogMessages, with similar distribution to the other log files.
 
-Note: When these files are served to the Mappers, One mapper task for each file is created. Each datafile here is a shard. And the shards are not equally split, the file dated `2021-10-17` is comparatively pretty big than other input files.
+Note: When these files are served to the Mappers, One mapper task for each file is created. Each datafile here is a shard. And the shards are not equally split, the file dated `2021-10-17` is comparatively pretty bigger than other input files.
 
 <hr/>
 
-[<< Back to Index](README.md)
+[<<Back to Index](README.md)

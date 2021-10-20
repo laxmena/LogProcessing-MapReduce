@@ -34,4 +34,6 @@ WARN,2892
 
 Check the output file here: [logfrequency.csv](./results/logfrequency.csv)
 
+<hr/>
+
 [<< Back to Index](README.md)

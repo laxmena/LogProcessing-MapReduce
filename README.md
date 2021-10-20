@@ -34,11 +34,11 @@ See How to __Run LogProcessing MapReduce__ section for more instructions on how 
 
 Please find the Documentation of the Classes and Methods here: [LogProcessing Documentation](https://laxmena.github.io/LogProcessing-MapReduce/)
 
-Demo and Walkthrough Video : [Running LogProcessing Map-Reduce on AWS EMR](https://youtu.be/et5_2hc6MWo)
+Demo and Walk-through Video : [Running LogProcessing Map-Reduce on AWS EMR](https://youtu.be/et5_2hc6MWo)
 
 ## Report and Results
 
-Detailed Report and results after executing the Map Reduce task can be found here __[LogProcessing MapReduce Report](./report/README.md)__.
+Detailed Report and results after executing the Map Reduce task can be found here: __[LogProcessing MapReduce Report](./report/README.md)__.
 
 ## How to Run LogProcessing Map-Reduce?
 
@@ -55,7 +55,9 @@ sbt assembly
 ```
 This command will generate a jar file in `target/scala-3.0.2/LogProcessing-MapReduce-assembly-0.1.jar`
 
-### Running the Program on VMWare-Hortonbox Sandbox or Other Hadoop VM
+### How to Execute the MapReduce Jobs?
+
+For detailed step-by-step guide on how to execute LogProcessing-MapReduce jobs on AWS or Hortonworks Sandbox, refer this guide: [Deploying on AWS/Hortonworks Guide](./report/AWS_Hortonworks_Guide.md)
 
 1. Connect to the remote hadoop master using putty or command line.
 2. Transfer the Input Log Files and JAR file to remote machine. Copy the input files to the HDFS directory. (See Commands 1, 3 and 4 in __Useful commands__ section below.)

@@ -93,4 +93,6 @@ In the result, we see that one log message with `INFO` level, has a substring wi
 
 Check all the output file here: [Ouptut Files](./results)
 
+<hr/>
+
 [<< Back to Index](README.md)

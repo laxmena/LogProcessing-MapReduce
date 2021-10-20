@@ -137,4 +137,6 @@ For pattern4, we search for sub-strings with consequetive numbers. We compute th
 
 Check all the output file here: [Ouptut Files](./results)
 
+<hr/>
+
 [<< Back to Index](README.md)

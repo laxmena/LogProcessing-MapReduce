@@ -14,8 +14,9 @@ This project was done as part of __CS441 Engineering Distributed Objects for Clo
 4. [Job2: Most Error in Time Interval](./Job2_MostError.md)
 5. [Job3: Longest Substring matching Regex](./Job3_LongestRegex.md)
 6. [Job4: LogLevel Frequency Distribution in TimeIntervals](./Job4_LogFreqDist.md)
-7. [Limitations and Future Improvements](./Improvements.md)
-8. [Resources and References](./Resources.md)
+7. [Guide to running Project in AWS and HortonWorks Sandbox](./AWS_Hortonworks_Guide.md)
+8. [Limitations and Future Improvements](./Improvements.md)
+9. [Resources and References](./Resources.md)
 
 ### Video Demo:
 
