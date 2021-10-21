@@ -56,6 +56,8 @@ cd LogProcessing-MapReduce
 
 #### Step 2: Generate JAR File
 ```bash
+sbt clean compile 
+sbt test
 sbt assembly
 ```
 This command will generate a jar file in `target/scala-3.0.2/LogProcessing-MapReduce-assembly-0.1.jar`
